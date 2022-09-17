@@ -3,7 +3,7 @@ Python logs to HTML formatter
 
 simple useage :
 ```bash
-import py2hlog
+from main import py2hlog
 import time
 obj1 = py2hlog()  # create a object from py2hlog
 obj1.file_name = "new_log_file.txt"  # here write the log detail
