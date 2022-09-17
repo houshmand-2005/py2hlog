@@ -1,5 +1,6 @@
-# py2hlog
+# py2hlog (Python to HTML log)
 Python logs to HTML formatter
+
 simple useage :
 ```bash
 import py2hlog
