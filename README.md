@@ -34,7 +34,7 @@ All of the statuses:
 
 <img src="https://github.com/houshmand-2005/py2hlog/blob/5a5f6cc5c5f0002c56d98b4621c77b7aa1af3c16/images/3.png" alt="randomazer_hash" width="700">
 
-You can also see which file the log belongs to and when the log was added. liek this:
+You can also see which file the log belongs to and when the log was added. like this:
 
 <img src="https://github.com/houshmand-2005/py2hlog/blob/ec6f99679990a0fd1d585ff8ccf261ae9cac0d22/images/2.jpg" alt="randomazer_hash" width="700">
 
