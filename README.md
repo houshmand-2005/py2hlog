@@ -1,11 +1,18 @@
 # py2hlog (Python to HTML log)
+see it from pypi [pypi.org/project/py2hlog/](https://pypi.org/project/py2hlog/)
+
 Python logs to HTML formatter
+
+install py2hlog:
+```bash
+pip install py2hlog
+```
 
 simple useage :
 ```bash
-from main import py2hlog
+from py2hlog import logger
 import time
-obj1 = py2hlog()  # create an object from py2hlog
+obj1 = logger.py2hlog()  # create an object from py2hlog
 obj1.file_name = "new_log_file.txt"  # here write the log detail
 try:
     if a == 2:
