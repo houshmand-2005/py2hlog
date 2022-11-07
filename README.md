@@ -45,6 +45,23 @@ You can also see which file the log belongs to and when the log was added. like 
 
 <img src="https://github.com/houshmand-2005/py2hlog/blob/ec6f99679990a0fd1d585ff8ccf261ae9cac0d22/images/2.jpg" alt="randomazer_hash" width="700">
 
+Also you can mark a part of your code for each status like this:
+
+```
+from py2hlog import logger
+object_of_py2hlog = logger.py2hlog()
+object_of_py2hlog.file_name = "Py2hlog.txt"
+object_of_py2hlog.warning("you can also mark a part of code for this status like -->", 1, 5)
+# ("msg", start line, end line)
+object_of_py2hlog.makehtml("Py2hlog.html")
+```
+
+output : 
+
+<img src="https://github.com/houshmand-2005/py2hlog/blob/8cd72d49c5627b604a204603225743416c011050/images/V0.3.jpg" alt="randomazer_hash" width="700">
+
+As you can see, when you click on 'see code', the codes will appear<hr>
+
 **THIS IS BETA VERSION**
 
 houshmand2005
