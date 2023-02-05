@@ -3,6 +3,7 @@ import inspect
 import random
 import string
 
+
 class py2hlog():
     """main class -> here the functions we need called"""
 
@@ -40,6 +41,7 @@ class py2hlog():
                 info += " <br> "
                 lines3 += info
             lines = lines2.join(lines3)
+
             def id_generator(size=8, chars=string.ascii_uppercase + string.digits):
                 return ''.join(random.choice(chars) for _ in range(size))
             count = "PY2HLOG"
