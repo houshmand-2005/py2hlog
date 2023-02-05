@@ -1,21 +1,75 @@
-from main import py2hlog
-import time
-obj1 = py2hlog()  # create a object from py2hlog
-obj1.file_name = "new_log_file.txt"  # here write the log detail
+import os
+from pydoc import importfile
+
+ERROR_COUNTER = -1
+
+
+def error_found(error="", error_counter=False):
+    global ERROR_COUNTER
+    ERROR_COUNTER += 1
+    if error_counter:
+        print("-------------------------")
+        print("Total number of errors : ", ERROR_COUNTER)
+    else:
+        print("-------------------------")
+        print(error)
+
+
 try:
-    if a == 2:
-        print("Iam working!")
+    module = importfile(r'..\src\py2hlog\logger.py')
+except FileNotFoundError:
+    error_found('Go to test folder ./tests')
+
+try:
+    obj1 = module.py2hlog()
+    print("print obj1: ", obj1)
 except:
-    obj1.error("I dont have any 'a' variable")
-print("print obj1: ", obj1)
-time.sleep(5)  # to see time changing
-obj1.debug("Add a variable before the 'if' like a = 3")
-obj1.makehtml("py2hlog.html")  # enter the name of output file
-# you can also use this statuses :
-# _____________________________
-# obj1.critical("your message")
-# obj1.debug("your message")
-# obj1.info("your message")
-# obj1.warning("your message")
-# obj1.error("your message")
-# _____________________________
+    error_found("Cannot call the function")
+
+try:
+    obj1.file_name = "new_log_file.txt"
+    obj1.debug("your message")
+    obj1.makehtml("py2hlog.html")
+except:
+    error_found('Cant make html file')
+
+try:
+    obj1.critical("Py2hlog", 13, 16)
+    obj1.debug("Py2hlog", 13, 16)
+    obj1.info("Py2hlog", 13, 16)
+    obj1.warning("Py2hlog", 13, 16)
+    obj1.error("Py2hlog", 13, 16)
+except:
+    error_found('It does not show the line that has a problem')
+
+try:
+    obj1.critical("your message")
+    obj1.debug("your message")
+    obj1.info("your message")
+    obj1.warning("your message")
+    obj1.error("your message")
+except:
+    error_found('The log is not written')
+
+try:
+    obj1._add_time_and_caller_file("hello")
+except:
+    error_found("It cannot insert the time and location of the executable file.")
+
+try:
+    obj1._write_log("new", "Hi")
+except:
+    error_found("Can't add log level and message and cant open the file")
+
+try:
+    obj1._ch_lines(1, 4)
+except:
+    error_found("Cannot find the specified section")
+
+try:
+    os.remove("new_log_file.txt")
+    os.remove("py2hlog.html")
+except:
+    pass
+
+error_found("", True)
