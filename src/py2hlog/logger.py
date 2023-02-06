@@ -16,37 +16,39 @@ class py2hlog():
         return f"{self!r} in --> {self.file_name}"
 
     def _caller(self, msg, startline, endline):
-        msg2 = py2hlog._ch_lines(self, startline, endline)
+        if startline != -1 and endline != -1:
+            msg2 = py2hlog._ch_lines(self, startline, endline)
+        else:
+            msg2 = ""
         msg = py2hlog._add_time_and_caller_file(self, msg)
         msg += str(msg2)
         return msg
 
     def _ch_lines(self, startline, endline):
-        if startline != -1 and endline != -1:
-            with open(f'{caller}', 'r') as fp:
-                # lines to read
-                line_numbers_range = list(range(startline-1, endline))
-                line_numbers = line_numbers_range
-                # To store lines
-                lines = []
-                for i, line in enumerate(fp):
-                    if i in line_numbers:
-                        lines.append(line.strip())
-                    elif i > int(line_numbers[-1:][0]):
-                        # don't read after the last line to save time
-                        break
-            lines2 = ""
-            lines3 = []
-            for info in lines:
-                info += " <br> "
-                lines3 += info
-            lines = lines2.join(lines3)
+        with open(f'{caller}', 'r') as fp:
+            # lines to read
+            line_numbers_range = list(range(startline-1, endline))
+            line_numbers = line_numbers_range
+            # To store lines
+            lines = []
+            for i, line in enumerate(fp):
+                if i in line_numbers:
+                    lines.append(line.strip())
+                elif i > int(line_numbers[-1:][0]):
+                    # don't read after the last line to save time
+                    break
+        lines2 = ""
+        lines3 = []
+        for info in lines:
+            info += " <br> "
+            lines3 += info
+        lines = lines2.join(lines3)
 
-            def id_generator(size=8, chars=string.ascii_uppercase + string.digits):
-                return ''.join(random.choice(chars) for _ in range(size))
-            count = "PY2HLOG"
-            count += id_generator()
-            addstyle = f"""
+        def id_generator(size=8, chars=string.ascii_uppercase + string.digits):
+            return ''.join(random.choice(chars) for _ in range(size))
+        count = "PY2HLOG"
+        count += id_generator()
+        addstyle = f"""
 <br>
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{count}">
 See code
@@ -68,7 +70,7 @@ See code
   </div>
 </div>
 """
-            return addstyle
+        return addstyle
 
     def _write_log(self, level, msg):
         """write log before transform to html"""
@@ -175,8 +177,8 @@ class html_formater():
 <html lang="en">
 <head>
     <title>py2hlog</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </head>
 <body style="background-color: rgb(243, 243, 243);">
 <div style="margin-left: 40px;margin-right: 700px;">
