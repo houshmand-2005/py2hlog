@@ -2,6 +2,13 @@ import datetime
 import inspect
 import random
 import string
+try:
+    from . import html_files
+except Exception:
+    try:
+        from src.py2hlog import html_files
+    except Exception:
+        from html_files import *
 
 
 class py2hlog():
@@ -48,28 +55,7 @@ class py2hlog():
             return ''.join(random.choice(chars) for _ in range(size))
         count = "PY2HLOG"
         count += id_generator()
-        addstyle = f"""
-<br>
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{count}">
-See code
-</button>
-
-<div class="modal fade" id="{count}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Code : </h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        {lines}
-      </div>
-      <div class="modal-footer">
-      </div>
-    </div>
-  </div>
-</div>
-"""
+        addstyle = html_files.insert_status(count, lines)
         return addstyle
 
     def _write_log(self, level, msg):
@@ -78,22 +64,14 @@ See code
         try:
             with open(path, "a") as log_file:
                 log_file.write(f"[{level}] {msg}\n")
-        except:
+        except Exception:
             print("Could not read The File")
 
     def _add_time_and_caller_file(self, msg):
         """add time for each log status"""
         now = str(datetime.datetime.now())
-        msg += "<br><br><button type='button' class='btn btn-light' disabled> " + now + " </button>"
-        msg += f"""
-<br><br>
-<div class='dropdown'>
-  <a class='btn btn-secondary dropdown-toggle' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>From this File</a>
-  <ul class='dropdown-menu'>
-    <li class='dropdown-item'>{caller}</li>
-  </ul>
-</div>
-"""
+        msg += html_files.insert_time_status(now)
+        msg += html_files.insert_caller_status(caller)
         return msg
 
     def critical(self, msg, startline=-1, endline=-1):
@@ -147,7 +125,7 @@ class html_formater():
         try:
             with open(self.input_file, "r") as input_file:
                 log_txt = input_file.read()
-        except:
+        except Exception:
             print("Could not read The File")
         status_txt = ""
         normall_txt = ""
@@ -172,19 +150,7 @@ class html_formater():
         self.output_file = output_file
         self.status_txt = status_txt
         self.normall_txt = normall_txt
-        basehtml = """
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>py2hlog</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-</head>
-<body style="background-color: rgb(243, 243, 243);">
-<div style="margin-left: 40px;margin-right: 700px;">
-<h1>py2hlog</h1>
-<br>
-"""
+        basehtml = html_files.base_html_code()
         counter = 0
         status = {
             'CRITICAL': """<div class="alert alert-dark" role="alert">""",
@@ -199,23 +165,14 @@ class html_formater():
                 if self.status_txt[counter] == stat:
                     status_style = status[stat]
             basehtml += f"""{status_style}{self.status_txt[counter]}</div>"""
-            basehtml += f"""
-<div class="card">
-  <div class="card-body">
-    {sent}
-  </div>
-</div>"""
+            basehtml += html_files.insert_sent_base_code(sent)
             basehtml += "<hr>"
             counter += 1
         time = datetime.datetime.now()
-        basehtml += f"""
-<h4>last edit :{time.strftime("%Y-%m-%d %H:%M:%S")}</h4>
-</div>
-</body>
-</html>
-"""
+        basehtml += html_files.insert_last_edit_time(
+            time.strftime("%Y-%m-%d %H:%M:%S"))
         try:
             with open(self.output_file, "w") as output:
                 output.write(basehtml)
-        except:
+        except Exception:
             print("Could not read The File")
