@@ -1,7 +1,8 @@
+import sys
 import os
 from pydoc import importfile
-
 ERROR_COUNTER = -1
+sys.path.insert(0, '..')
 
 
 def error_found(error="", error_counter=False):
@@ -16,12 +17,13 @@ def error_found(error="", error_counter=False):
 
 
 try:
-    module = importfile(r'..\src\py2hlog\logger.py')
-except FileNotFoundError:
-    error_found('Go to test folder ./tests')
+    from src.py2hlog import logger
+    from src.py2hlog import html_files
+except ModuleNotFoundError:
+    error_found('*** Go to test folder ./tests ***')
 
 try:
-    obj1 = module.py2hlog()
+    obj1 = logger.py2hlog()
     print("print obj1: ", obj1)
 except:
     error_found("Cannot call the function")
