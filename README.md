@@ -47,7 +47,7 @@ You can also see which file the log belongs to and when the log was added. like 
 
 Also you can mark a part of your code for each status like this:
 
-```
+```bash
 from py2hlog import logger
 object_of_py2hlog = logger.py2hlog()
 object_of_py2hlog.file_name = "Py2hlog.txt"
@@ -62,6 +62,5 @@ output :
 
 As you can see, when you click on 'see code', the codes will appear<hr>
 
-**THIS IS BETA VERSION**
 
 houshmand2005
