@@ -1,14 +1,19 @@
+import pathlib
 import datetime
 import inspect
 import random
 import string
 try:
     from . import html_files
+    from . import addtree
 except Exception:
     try:
         from src.py2hlog import html_files
+        from src.py2hlog import addtree
     except Exception:
         from html_files import *
+        from addtree import *
+tree_output_send = ""
 
 
 class py2hlog():
@@ -67,10 +72,38 @@ class py2hlog():
         except Exception:
             print("Could not read The File")
 
+    def _add_address(self, inpaddress, inpfilename):
+        addtree.ALL_ADDRESS
+        addtree.COUNTER_ADDRESS
+        if addtree.ALL_ADDRESS == {}:
+            addtree.ALL_ADDRESS[addtree.COUNTER_ADDRESS] = [
+                inpaddress, inpfilename]
+            addtree.COUNTER_ADDRESS += 1
+            return False
+        for adders in addtree.ALL_ADDRESS:
+            if addtree.ALL_ADDRESS[adders][0] == inpaddress and addtree.ALL_ADDRESS[adders][1] == inpfilename:
+                return True
+            else:
+                addtree.ALL_ADDRESS[addtree.COUNTER_ADDRESS] = inpaddress, inpfilename
+                addtree.COUNTER_ADDRESS += 1
+                return False
+
     def _add_time_and_caller_file(self, msg):
         """add time for each log status"""
         now = str(datetime.datetime.now())
         msg += html_files.insert_time_status(now)
+        path12 = pathlib.Path(caller)
+        filename = path12.name
+        pathname = path12.parent
+        add_addr = self._add_address(pathname, filename)
+        if add_addr:
+            pass
+        else:
+            tree_output = addtree.tree(
+                pathlib.Path.home() / pathname, filename=filename)
+            global tree_output_send
+            tree_output_send += tree_output
+
         msg += html_files.insert_caller_status(caller)
         return msg
 
@@ -169,6 +202,8 @@ class html_formater():
             basehtml += "<hr>"
             counter += 1
         time = datetime.datetime.now()
+        global tree_output_send
+        basehtml += html_files.insert_tree(tree_output_send)
         basehtml += html_files.insert_last_edit_time(
             time.strftime("%Y-%m-%d %H:%M:%S"))
         try:
