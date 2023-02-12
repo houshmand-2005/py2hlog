@@ -8,7 +8,9 @@ def base_html_code():
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </head>
 <body style="background-color: rgb(243, 243, 243);">
-<div style="margin-left: 40px;margin-right: 700px;">
+<div class="row">
+<div class="col-7">
+<div style="margin-left: 30px;margin-right: 50px;">
 <h1>py2hlog</h1>
 <br>"""
     return base_html_code_html
@@ -68,10 +70,26 @@ def insert_sent_base_code(sent):
     return insert_sent_base_code_html
 
 
+def insert_tree(msg):
+    """insert The contents of the executable file folder in html file"""
+    insert_tree_html = '</div></div><br>' + \
+        f"""
+<div class="col-4" style="margin-top: 10px;font-family:monospace">
+<div class="card text-bg-light mb-3" style="max-width: 18rem;">
+  <div class="card-header">The contents of the executable file folder</div>
+  <div class="card-body">
+    <p class="card-text">{msg}</p>
+  </div>
+</div>
+</div>"""
+    return insert_tree_html
+
+
 def insert_last_edit_time(time):
     """insert the last time anyone edit it"""
-    insert_last_edit_time_html = f"""<h4>last edit :{time}</h4>
-</div>
+    insert_last_edit_time_html = f"""<h4 style="margin-left: 10px>last edit :{time}</h4>
+    </div>
+  </div>
 </body>
 </html>"""
     return insert_last_edit_time_html
