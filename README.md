@@ -60,7 +60,12 @@ output :
 
 <img src="https://github.com/houshmand-2005/py2hlog/blob/8cd72d49c5627b604a204603225743416c011050/images/V0.3.jpg" alt="randomazer_hash" width="700">
 
-As you can see, when you click on 'see code', the codes will appear<hr>
-
-
+As you can see, when you click on 'see code', the codes will appear<br>
+<br>
+what is new :
+<br>✨ Add the ability to show the contents of the executable file folder and display it
+<br><img src="https://github.com/houshmand-2005/py2hlog/blob/f678aa865144468c319be93fd543b4bc02bcbab6/images/4.jpg" alt="newabli" width="700">
+<br>
+**This is Beta version**
+<hr>
 houshmand2005
