@@ -3,10 +3,10 @@ from itertools import islice
 
 COUNTER_ADDRESS = 0
 ALL_ADDRESS = {}
-space = '    '
-branch = '<span style="color: gray;font-size: large;">+</span>'
-tee = '<span style="color: gray;font-size: large;">+--   </span>'
-last = '<span style="color: olivedrab;font-size: large;">---->   </span>'
+space = '<span style="padding-left:1rem"></span>'
+branch = '│   '
+tee = '├─ '
+last = ' └─ '
 output = ""
 pathname = ""
 
@@ -45,7 +45,7 @@ def tree(dir_path: Path, level: int = -1, limit_to_directories: bool = False,
                     yield prefix + pointer + path.name
                 files += 1
     global output
-    output += dir_path.name
+    output += f'<br><b>{dir_path.name}</b>'
     iterator = inner(dir_path, level=level)
     for line in islice(iterator, length_limit):
         output += f'<br>{line}'
