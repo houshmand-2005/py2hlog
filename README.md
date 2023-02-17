@@ -74,7 +74,8 @@ what is new :
   <img src="https://github.com/houshmand-2005/py2hlog/blob/47d372b037abee1f99b1a70bd14f16ad9b9e0719/images/4.2.png" alt="newabli" width="120" height="270">
 </div>
 <br>
-If you want to disable the tree display (The important point must be before defining the logs like the following code):<br>
+If you want to disable the tree display (Important note "You must define it before the logs statement like the following code")<br>
+
 
 ```bash
 from py2hlog import logger
