@@ -14,6 +14,7 @@ except Exception:
         from html_files import *
         from addtree import *
 TREE_OUTPUT_SEND = ""
+Add_Tree = True
 
 
 class py2hlog():
@@ -95,25 +96,25 @@ class py2hlog():
                 log_file.write(tree_output)
         except Exception as ex:
             print(ex)
-            print("Could not read The File")
+            print("Could not write The File")
 
     def _add_time_and_caller_file(self, msg):
         """add time for each log status"""
         now = str(datetime.datetime.now())
         msg += html_files.insert_time_status(now)
-        path12 = pathlib.Path(caller)
-        filename = path12.name
-        pathname = path12.parent
-        add_addr = self._add_address(pathname, filename)
-        if add_addr:
-            pass
-        else:
-            tree_output = addtree.tree(
-                pathlib.Path.home() / pathname, filename=filename)
-            global TREE_OUTPUT_SEND
-            TREE_OUTPUT_SEND += tree_output
-            self._write_tree(TREE_OUTPUT_SEND)
-
+        if Add_Tree is True:
+            path12 = pathlib.Path(caller)
+            filename = path12.name
+            pathname = path12.parent
+            add_addr = self._add_address(pathname, filename)
+            if add_addr:
+                pass
+            else:
+                tree_output = addtree.tree(
+                    pathlib.Path.home() / pathname, filename=filename, level=4)
+                global TREE_OUTPUT_SEND
+                TREE_OUTPUT_SEND += tree_output
+                self._write_tree(TREE_OUTPUT_SEND)
         msg += html_files.insert_caller_status(caller)
         return msg
 
@@ -170,7 +171,8 @@ class html_formatter():
         try:
             with open(filepath, "r", encoding="utf-8") as tree_input:
                 TREE_OUTPUT_SEND = tree_input.read()
-        except Exception:
+        except Exception as ex:
+            print(ex)
             print("Could not read The File")
         return html_files.insert_tree(TREE_OUTPUT_SEND)
 
@@ -223,7 +225,8 @@ class html_formatter():
             counter += 1
         time = datetime.datetime.now()
         global TREE_OUTPUT_SEND
-        basehtml += html_formatter._read_tree(self, py2hlog.TREE_PATH)
+        if Add_Tree is True:
+            basehtml += html_formatter._read_tree(self, py2hlog.TREE_PATH)
         basehtml += html_files.insert_last_edit_time(
             time.strftime("%Y-%m-%d %H:%M:%S"))
         try:

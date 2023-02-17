@@ -15,7 +15,7 @@ pathname = ""
 
 
 def tree(dir_path: Path, level: int = -1, limit_to_directories: bool = False,
-         length_limit: int = 1000, filename=""):
+         length_limit: int = 500, filename=""):
     """Given a directory Path object print a visual tree structure"""
     dir_path = Path(dir_path)
     files = 0
