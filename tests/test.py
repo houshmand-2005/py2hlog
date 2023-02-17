@@ -31,6 +31,9 @@ except Exception as ex:
     error_found("Cannot call the function")
 
 try:
+    # also you can write full path -->
+    # obj1.file_name = r"C:\Users\Houshmand\Desktop\file.txt"
+    # obj1.makehtml(r"C:\Users\amir\Desktop\htmlfile.html")
     obj1.file_name = "new_log_file.txt"
     obj1.debug("your message")
     obj1.makehtml("py2hlog.html")
@@ -77,9 +80,16 @@ except Exception as ex:
     error_found("Cannot find the specified section")
 
 try:
+    obj1._write_tree("Myconfigfile.txt")
+except Exception as ex:
+    print(ex)
+    error_found("Cannot write the tree config")
+
+try:
     os.remove("new_log_file.txt")
     os.remove("py2hlog.html")
-except:
-    pass
+    os.remove("tree_config.txt")
+except Exception as ex:
+    print(ex)
 
 error_found("", True)
