@@ -13,7 +13,7 @@ except Exception:
     except Exception:
         from html_files import *
         from addtree import *
-tree_output_send = ""
+TREE_OUTPUT_SEND = ""
 
 
 class py2hlog():
@@ -27,6 +27,8 @@ class py2hlog():
     def __str__(self):
         return f"{self!r} in --> {self.file_name}"
 
+    TREE_PATH = 'tree_config.txt'
+
     def _caller(self, msg, startline, endline):
         if startline != -1 and endline != -1:
             msg2 = py2hlog._ch_lines(self, startline, endline)
@@ -37,7 +39,7 @@ class py2hlog():
         return msg
 
     def _ch_lines(self, startline, endline):
-        with open(f'{caller}', 'r') as fp:
+        with open(f'{caller}', 'r', encoding="utf-8") as fp:
             # lines to read
             line_numbers_range = list(range(startline-1, endline))
             line_numbers = line_numbers_range
@@ -69,12 +71,11 @@ class py2hlog():
         try:
             with open(path, "a") as log_file:
                 log_file.write(f"[{level}] {msg}\n")
-        except Exception:
-            print("Could not read The File")
+        except Exception as ex:
+            print(ex)
+            print("Could not write into The File")
 
     def _add_address(self, inpaddress, inpfilename):
-        addtree.ALL_ADDRESS
-        addtree.COUNTER_ADDRESS
         if addtree.ALL_ADDRESS == {}:
             addtree.ALL_ADDRESS[addtree.COUNTER_ADDRESS] = [
                 inpaddress, inpfilename]
@@ -83,10 +84,18 @@ class py2hlog():
         for adders in addtree.ALL_ADDRESS:
             if addtree.ALL_ADDRESS[adders][0] == inpaddress and addtree.ALL_ADDRESS[adders][1] == inpfilename:
                 return True
-            else:
-                addtree.ALL_ADDRESS[addtree.COUNTER_ADDRESS] = inpaddress, inpfilename
-                addtree.COUNTER_ADDRESS += 1
-                return False
+            addtree.ALL_ADDRESS[addtree.COUNTER_ADDRESS] = inpaddress, inpfilename
+            addtree.COUNTER_ADDRESS += 1
+            return False
+
+    def _write_tree(self, tree_output):
+        """write tree path to another file"""
+        try:
+            with open(py2hlog.TREE_PATH, "a", encoding="utf-8") as log_file:
+                log_file.write(tree_output)
+        except Exception as ex:
+            print(ex)
+            print("Could not read The File")
 
     def _add_time_and_caller_file(self, msg):
         """add time for each log status"""
@@ -101,8 +110,9 @@ class py2hlog():
         else:
             tree_output = addtree.tree(
                 pathlib.Path.home() / pathname, filename=filename)
-            global tree_output_send
-            tree_output_send += tree_output
+            global TREE_OUTPUT_SEND
+            TREE_OUTPUT_SEND += tree_output
+            self._write_tree(TREE_OUTPUT_SEND)
 
         msg += html_files.insert_caller_status(caller)
         return msg
@@ -145,44 +155,54 @@ class makehtml():
 
     def create_html_format(self):
         """call makehtml class to create html form of simple text log file"""
-        html_formater(self.input_file, self.output_file)
+        html_formatter(self.input_file, self.output_file)
 
 
-class html_formater():
+class html_formatter():
     def __init__(self, input_file, output_file):
         self.input_file = input_file
         self.output_file = output_file
-        html_formater._normallaze_txt(self)
+        html_formatter._normalized_txt(self)
 
-    def _normallaze_txt(self):
+    def _read_tree(self, filepath):
+        """read the tree file and make it ready for html output"""
+        TREE_OUTPUT_SEND = ""
         try:
-            with open(self.input_file, "r") as input_file:
+            with open(filepath, "r", encoding="utf-8") as tree_input:
+                TREE_OUTPUT_SEND = tree_input.read()
+        except Exception:
+            print("Could not read The File")
+        return html_files.insert_tree(TREE_OUTPUT_SEND)
+
+    def _normalized_txt(self):
+        try:
+            with open(self.input_file, "r", encoding="utf-8") as input_file:
                 log_txt = input_file.read()
         except Exception:
             print("Could not read The File")
         status_txt = ""
-        normall_txt = ""
+        normal_txt = ""
         for char in log_txt:
             if char == "[":
                 status = True
-                normall_txt += "|"
+                normal_txt += "|"
             elif char == "]":
                 status = False
                 status_txt += "|"
             elif status:
                 status_txt += char
             else:
-                normall_txt += char
+                normal_txt += char
 
         status_txt = (status_txt.split("|"))[0:-1]
-        normall_txt = (normall_txt.split("|")[1:])
-        html_formater._write_html(
-            self, status_txt, normall_txt, self.output_file)
+        normal_txt = (normal_txt.split("|")[1:])
+        html_formatter._write_html(
+            self, status_txt, normal_txt, self.output_file)
 
-    def _write_html(self, status_txt, normall_txt, output_file):
+    def _write_html(self, status_txt, normal_txt, output_file):
         self.output_file = output_file
         self.status_txt = status_txt
-        self.normall_txt = normall_txt
+        self.normal_txt = normal_txt
         basehtml = html_files.base_html_code()
         counter = 0
         status = {
@@ -192,7 +212,7 @@ class html_formater():
             'INFO': """<div class="alert alert-info" role="alert">""",
             'DEBUG': """<div class="alert alert-success" role="alert">""",
         }
-        for sent in self.normall_txt:
+        for sent in self.normal_txt:
             sent = sent.replace('\n', "")
             for stat in status:
                 if self.status_txt[counter] == stat:
@@ -202,12 +222,13 @@ class html_formater():
             basehtml += "<hr>"
             counter += 1
         time = datetime.datetime.now()
-        global tree_output_send
-        basehtml += html_files.insert_tree(tree_output_send)
+        global TREE_OUTPUT_SEND
+        basehtml += html_formatter._read_tree(self, py2hlog.TREE_PATH)
         basehtml += html_files.insert_last_edit_time(
             time.strftime("%Y-%m-%d %H:%M:%S"))
         try:
-            with open(self.output_file, "w") as output:
+            with open(self.output_file, "w", encoding="utf-8") as output:
                 output.write(basehtml)
-        except Exception:
-            print("Could not read The File")
+        except Exception as ex:
+            print(ex)
+            print("Could not write into The File")
