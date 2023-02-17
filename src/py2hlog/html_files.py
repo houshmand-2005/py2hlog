@@ -75,7 +75,7 @@ def insert_tree(msg):
     insert_tree_html = '</div></div><br>' + \
         f"""
 <div class="col-4" style="margin-top: 10px;font-family:monospace">
-<div class="card text-bg-light mb-3" style="max-width: 18rem;">
+<div class="card text-bg-light mb-3" style="max-width: 20rem;">
   <div class="card-header">The contents of the executable file folder</div>
   <div class="card-body">
     <p class="card-text">{msg}</p>
