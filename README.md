@@ -64,8 +64,15 @@ As you can see, when you click on 'see code', the codes will appear<br>
 <br>
 what is new :
 <br>✨ Add the ability to show the contents of the executable file folder and display it
-<br><img src="https://github.com/houshmand-2005/py2hlog/blob/f678aa865144468c319be93fd543b4bc02bcbab6/images/4.jpg" alt="newabli" width="700">
+<br><img src="https://github.com/houshmand-2005/py2hlog/blob/47d372b037abee1f99b1a70bd14f16ad9b9e0719/images/4.1.png" alt="newabli" width="700">
 <br>
-**This is Beta version**
+<br>
+✨After the last update(V1.2) we have a better style for tree:<br>
+ &emsp; Before &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; After
+<div style="display: flex;">
+  <img src="https://github.com/houshmand-2005/py2hlog/blob/47d372b037abee1f99b1a70bd14f16ad9b9e0719/images/4.3.png" alt="newabli" width="120" height="270">
+  <img src="https://github.com/houshmand-2005/py2hlog/blob/47d372b037abee1f99b1a70bd14f16ad9b9e0719/images/4.2.png" alt="newabli" width="120" height="270">
+</div>
+
 <hr>
 houshmand2005
