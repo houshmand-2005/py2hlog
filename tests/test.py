@@ -34,6 +34,8 @@ try:
     # also you can write full path -->
     # obj1.file_name = r"C:\Users\Houshmand\Desktop\file.txt"
     # obj1.makehtml(r"C:\Users\amir\Desktop\htmlfile.html")
+    # you can turn off the add tree like this  -->
+    # logger.Add_Tree = False # but you need add this at top
     obj1.file_name = "new_log_file.txt"
     obj1.debug("your message")
     obj1.makehtml("py2hlog.html")
