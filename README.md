@@ -73,6 +73,17 @@ what is new :
   <img src="https://github.com/houshmand-2005/py2hlog/blob/47d372b037abee1f99b1a70bd14f16ad9b9e0719/images/4.3.png" alt="newabli" width="120" height="270">
   <img src="https://github.com/houshmand-2005/py2hlog/blob/47d372b037abee1f99b1a70bd14f16ad9b9e0719/images/4.2.png" alt="newabli" width="120" height="270">
 </div>
+<br>
+If you want to disable the tree display (The important point must be before defining the logs like the following code):<br>
+
+```bash
+from py2hlog import logger
+object_of_py2hlog = logger.py2hlog()
+logger.Add_Tree = False
+object_of_py2hlog.file_name = "Py2hlog.txt"
+object_of_py2hlog.warning("", 1, 5)
+object_of_py2hlog.makehtml("Py2hlog.html")
+```
 
 <hr>
 houshmand2005
